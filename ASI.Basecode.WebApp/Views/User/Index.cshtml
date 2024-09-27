@@ -32,6 +32,18 @@
                 @Html.DisplayNameFor(model => model.dataList.FirstOrDefault().Name)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.dataList.FirstOrDefault().Detail1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.dataList.FirstOrDefault().Detail2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.dataList.FirstOrDefault().Permission1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.dataList.FirstOrDefault().Permission2)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.dataList.FirstOrDefault().Description)
             </th>
             <th></th>
@@ -46,6 +58,18 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Detail1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Detail2)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Permission1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Permission2)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Description)

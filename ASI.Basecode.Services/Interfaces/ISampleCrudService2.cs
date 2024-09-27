@@ -9,7 +9,7 @@ namespace ASI.Basecode.Services.Interfaces
 {
     public interface ISampleCrudService2
     {
-        IEnumerable<UserViewModel> RetrieveAll(int? id = null, string firstName = null);
+        IEnumerable<UserViewModelEx> RetrieveAll(int? id = null, string firstName = null);
         UserViewModel RetrieveUser(int id);
         void Add(UserViewModel model);
         void Update(UserViewModel model);

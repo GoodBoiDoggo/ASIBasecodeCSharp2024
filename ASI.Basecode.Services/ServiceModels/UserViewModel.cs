@@ -29,6 +29,14 @@ namespace ASI.Basecode.Services.ServiceModels
         public string Password { get; set; }
     }
 
+    public class UserViewModelEx : UserViewModel
+    {
+        public string Detail1 { get; set; }
+        public string Detail2 { get; set; }
+        public string Permission1 { get; set; }
+        public string Permission2 { get; set; }
+    }
+
     public class UserListViewModel
     {
         [DisplayName("ID")]
@@ -37,6 +45,6 @@ namespace ASI.Basecode.Services.ServiceModels
         [Display(Name = "FirstName", ResourceType = typeof(Resources.Views.Screen))]
         public string FirstNameFilter { get; set; }
 
-        public IEnumerable<UserViewModel> dataList { get; set; }
+        public IEnumerable<UserViewModelEx> dataList { get; set; }
     }
 }

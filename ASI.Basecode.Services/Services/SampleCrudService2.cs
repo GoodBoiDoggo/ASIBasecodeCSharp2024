@@ -15,29 +15,45 @@ namespace ASI.Basecode.Services.Services
     public class SampleCrudService2 : ISampleCrudService2
     {
         private readonly IUserRepository _userRepository;
+        private readonly IUserDetailsRepository _userDetailsRepository;
+        private readonly IUserPermissionRepository _userPermissionRepository;
         private readonly IMapper _mapper;
 
-        public SampleCrudService2(IMapper mapper, IUserRepository userRepository)
+        public SampleCrudService2(IMapper mapper, IUserRepository userRepository, IUserDetailsRepository userDetailsRepository, IUserPermissionRepository userPermissionRepository)
         {
             _mapper = mapper;
             _userRepository = userRepository;
+            _userDetailsRepository = userDetailsRepository;
+            _userPermissionRepository = userPermissionRepository;
         }
 
         /// <summary>
         /// Retrieves all.
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<UserViewModel> RetrieveAll(int? id = null, string firstName = null)
+        public IEnumerable<UserViewModelEx> RetrieveAll(int? id = null, string firstName = null)
         {
-            var data = _userRepository.GetUsers()
-                .Where(x => x.Deleted != true
-                        && (!id.HasValue || x.UserId == id)
-                        && (string.IsNullOrEmpty(firstName) || x.FirstName.Contains(firstName)))
-                .Select(s => new UserViewModel
+            var userQuery = _userRepository.GetUsers().Where(x => x.Deleted != true);
+            var userDetailsQuery = _userDetailsRepository.GetUserDetails();
+            var userPermissionQuery = _userPermissionRepository.GetUserPermissions();
+
+            var joinQuery = userQuery.Join(userDetailsQuery, user => user.UserId, userDetail => userDetail.UserId, (user, userDetail) => new { user, userDetail })
+                            .GroupJoin(userPermissionQuery, usrDtl => usrDtl.user.UserId, usrPrmsn => usrPrmsn.UserId, (usrDtl, usrPrmsn) => new { usrDtl.user, usrDtl.userDetail, usrPrmsn })
+                            .SelectMany(usrDtlPrmsn => usrDtlPrmsn.usrPrmsn.DefaultIfEmpty(), (usrDtlPrmsn, userPermission) => new { usrDtlPrmsn.user, usrDtlPrmsn.userDetail, userPermission });
+
+
+            var data = joinQuery
+                .Where(x => (!id.HasValue || x.user.UserId == id)
+                        && (string.IsNullOrEmpty(firstName) || x.user.FirstName.Contains(firstName)))
+                .Select(s => new UserViewModelEx
             {
-                Id = s.UserId,
-                Name = "John",
-                Description = s.Remarks,
+                Id = s.user.UserId,
+                Name = string.Concat(s.user.FirstName, " ", s.user.LastName),
+                Detail1 = s.userDetail.Detail1 ?? "-",
+                Detail2 = s.userDetail.Detail2 ?? "-",
+                Permission1 = (s.userPermission.Permission1 ?? false) ? "OK" : "N/A",
+                Permission2 = (s.userPermission.Permission2 ?? false) ? "OK" : "N/A",
+                Description = s.user.Remarks,
             });
             return data;
         }
