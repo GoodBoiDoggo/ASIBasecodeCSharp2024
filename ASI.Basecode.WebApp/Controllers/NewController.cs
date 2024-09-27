@@ -15,7 +15,7 @@ namespace ASI.Basecode.WebApp.Controllers
     /// <summary>
     /// Sample Crud Controller
     /// </summary>
-    public class UserController : ControllerBase<UserController>
+    public class NewController : ControllerBase<NewController>
     {
         private readonly ISampleCrudService2 _userService;
 
@@ -27,7 +27,7 @@ namespace ASI.Basecode.WebApp.Controllers
         /// <param name="configuration"></param>
         /// <param name="localizer"></param>
         /// <param name="mapper"></param>
-        public UserController(ISampleCrudService2 sampleCrudService,
+        public NewController(ISampleCrudService2 sampleCrudService,
             IHttpContextAccessor httpContextAccessor,
                               ILoggerFactory loggerFactory,
                               IConfiguration configuration,
@@ -75,7 +75,7 @@ namespace ASI.Basecode.WebApp.Controllers
                     dataList = data
                 };
                 _logger.LogInformation("=======Sample Crud : Retrieve All End=======");
-                return View("Index", viewModel);
+                return RedirectToAction("Index", "User", viewModel);
             }
             catch (Exception ex)
             {
@@ -90,7 +90,7 @@ namespace ASI.Basecode.WebApp.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Authorize(Policy = "AdminOnly2")]
+        [Authorize(Policy = "AdminOnly")]
         public IActionResult Create()
         {
             return View();

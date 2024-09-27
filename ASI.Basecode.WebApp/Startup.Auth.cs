@@ -54,6 +54,9 @@ namespace ASI.Basecode.WebApp
                     policy.RequireAuthenticatedUser();
                 });
                 options.AddPolicy("AdminOnly", policy =>
+                      policy.RequireClaim("UserRole", "123"));
+
+                options.AddPolicy("AdminOnly2", policy =>
                       policy.RequireClaim("UserRole", "9"));
             });
 

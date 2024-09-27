@@ -88,7 +88,7 @@ namespace ASI.Basecode.Resources.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to First Name.
+        ///   Looks up a localized string similar to First Namezxc.
         /// </summary>
         public static string FirstName {
             get {
@@ -115,7 +115,7 @@ namespace ASI.Basecode.Resources.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Password.
+        ///   Looks up a localized string similar to Passwordzxc.
         /// </summary>
         public static string Password {
             get {
