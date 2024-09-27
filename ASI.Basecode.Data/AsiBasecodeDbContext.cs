@@ -19,6 +19,8 @@ namespace ASI.Basecode.Data
 
         public virtual DbSet<MRole> MRoles { get; set; }
         public virtual DbSet<MUser> MUsers { get; set; }
+        public virtual DbSet<MUserDetail> MUserDetails { get; set; }
+        public virtual DbSet<MUserPermission> MUserPermissions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -86,6 +88,33 @@ namespace ASI.Basecode.Data
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<MUserDetail>(entity =>
+            {
+                entity.HasKey(e => e.UserDetailId);
+
+                entity.ToTable("M_UserDetails");
+
+                entity.Property(e => e.UserDetailId).ValueGeneratedNever();
+
+                entity.Property(e => e.Detail1)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Detail2)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<MUserPermission>(entity =>
+            {
+                entity.HasKey(e => e.UserPermissionId);
+
+                entity.ToTable("M_UserPermissions");
+
+                entity.Property(e => e.UserPermissionId).ValueGeneratedNever();
             });
 
             OnModelCreatingPartial(modelBuilder);
