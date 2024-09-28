@@ -54,7 +54,7 @@ namespace ASI.Basecode.Services.Services
                 Permission1 = (s.userPermission.Permission1 ?? false) ? "OK" : "N/A",
                 Permission2 = (s.userPermission.Permission2 ?? false) ? "OK" : "N/A",
                 Description = s.user.Remarks,
-            });
+            }).ToList();
             return data;
         }
 
